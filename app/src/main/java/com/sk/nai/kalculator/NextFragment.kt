@@ -4,6 +4,7 @@ import android.content.Context
 import android.net.Uri
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -23,8 +24,14 @@ class NextFragment : Fragment() {
         initInstance(savedInstanceState)
     }
 
-    fun initInstance(savedInstanceState: Bundle?){
-        text_view.text = arguments.getString("Result") + arguments.getString("MoreResult")+arguments.getString("MoreMoreResult")
+    fun initInstance(savedInstanceState: Bundle?) {
+        text_view.text = arguments.getString("Result") + arguments.getString("MoreResult") + arguments.getString("MoreMoreResult")
+
+        val llm = LinearLayoutManager(context)
+        llm.orientation = LinearLayoutManager.VERTICAL
+        recycler_view.layoutManager = llm
+
+        recycler_view.adapter = MyAdapter()
     }
 
 }
