@@ -42,6 +42,8 @@ class NextFragment : Fragment() {
 
         if (activity is MyAdapter.OnItemClickListener) {
             recycler_view.adapter = MyAdapter(activity as MyAdapter.OnItemClickListener)
+        }else{
+            recycler_view.adapter = MyAdapter(null)
         }
     }
 
