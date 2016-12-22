@@ -20,7 +20,7 @@ class MyAdapter : RecyclerView.Adapter<MyAdapter.MyViewHolder>() {
     }
 
     override fun getItemCount(): Int {
-        return 20//To change body of created functions use File | Settings | File Templates.
+        return FormulaSingleton.formulas.size//To change body of created functions use File | Settings | File Templates.
     }
 
     override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): MyViewHolder {
@@ -30,8 +30,8 @@ class MyAdapter : RecyclerView.Adapter<MyAdapter.MyViewHolder>() {
     }
 
     override fun onBindViewHolder(holder: MyViewHolder?, position: Int) {
-        holder?.nameText?.text = "Name$position"
-        holder?.text1?.text = "One with $position"
-        holder?.text2?.text = "Two with $position"
+        holder?.nameText?.text = FormulaSingleton.formulas[position].name
+        holder?.text1?.text = FormulaSingleton.formulas[position].formula
+        holder?.text2?.text = FormulaSingleton.formulas[position].params.toString()
     }
 }
