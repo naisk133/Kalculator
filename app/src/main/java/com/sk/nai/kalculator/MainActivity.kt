@@ -10,8 +10,11 @@ class MainActivity : AppCompatActivity(), CalcFragment.OnNextButtonClickListener
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        supportFragmentManager.beginTransaction()
-                .replace(R.id.container, CalcFragment()).commit()
+        if (savedInstanceState == null) {
+            supportFragmentManager.beginTransaction()
+                    .replace(R.id.container, CalcFragment()).commit()
+        }
+
     }
 
     override fun onNextButtonClicked(msg: String) {
@@ -27,8 +30,13 @@ class MainActivity : AppCompatActivity(), CalcFragment.OnNextButtonClickListener
 
     }
 
-    override fun onItemClicked() {
+    override fun onItemClicked(formula: Formula) {
+        val fragment = DetailFragment()
+        val bundle = Bundle()
+        bundle.putParcelable("formula", formula)
+        fragment.arguments = bundle
         supportFragmentManager.beginTransaction()
-                .replace(R.id.container, DetailFragment()).addToBackStack(null).commit()
+                .replace(R.id.container, fragment).addToBackStack(null).commit()
     }
+
 }

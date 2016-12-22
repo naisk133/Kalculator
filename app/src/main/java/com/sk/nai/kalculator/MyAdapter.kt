@@ -18,13 +18,13 @@ class MyAdapter(val listener: OnItemClickListener?) : RecyclerView.Adapter<MyAda
         val text1: TextView = itemView.findViewById(R.id.text_view1) as TextView
         val text2: TextView = itemView.findViewById(R.id.text_view2) as TextView
 
-        fun bind(listener: OnItemClickListener?,position: Int) {
-            nameText?.text = FormulaSingleton.formulas[position].name
-            text1?.text = FormulaSingleton.formulas[position].formula
-            text2?.text = FormulaSingleton.formulas[position].params.toString()
+        fun bind(listener: OnItemClickListener?, formula: Formula) {
+            nameText?.text = formula.name
+            text1?.text = formula.formula
+            text2?.text = formula.params.toString()
 
             itemView.setOnClickListener {
-                listener?.onItemClicked()
+                listener?.onItemClicked(formula)
             }
         }
     }
@@ -40,10 +40,10 @@ class MyAdapter(val listener: OnItemClickListener?) : RecyclerView.Adapter<MyAda
     }
 
     override fun onBindViewHolder(holder: MyViewHolder?, position: Int) {
-        holder?.bind(listener,position)
+        holder?.bind(listener, FormulaSingleton.formulas[position])
     }
 
     interface OnItemClickListener {
-        fun onItemClicked()
+        fun onItemClicked(formula: Formula)
     }
 }

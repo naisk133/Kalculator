@@ -36,15 +36,18 @@ class NextFragment : Fragment() {
     fun initInstance(savedInstanceState: Bundle?) {
         text_view.text = arguments.getString("Result") + arguments.getString("MoreResult") + arguments.getString("MoreMoreResult")
 
+
         val llm = LinearLayoutManager(context)
         llm.orientation = LinearLayoutManager.VERTICAL
         recycler_view.layoutManager = llm
 
+
         if (activity is MyAdapter.OnItemClickListener) {
             recycler_view.adapter = MyAdapter(activity as MyAdapter.OnItemClickListener)
-        }else{
+        } else {
             recycler_view.adapter = MyAdapter(null)
         }
+
     }
 
     fun loadDataFromAPI() {
