@@ -11,12 +11,22 @@ import java.util.zip.Inflater
 /**
  * Created by naisk133 on 22/12/2559.
  */
-class MyAdapter : RecyclerView.Adapter<MyAdapter.MyViewHolder>() {
+class MyAdapter(val listener: OnItemClickListener) : RecyclerView.Adapter<MyAdapter.MyViewHolder>() {
 
-    class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    class MyViewHolder(item: View) : RecyclerView.ViewHolder(item) {
         val nameText: TextView = itemView.findViewById(R.id.name_text_view) as TextView
         val text1: TextView = itemView.findViewById(R.id.text_view1) as TextView
         val text2: TextView = itemView.findViewById(R.id.text_view2) as TextView
+
+        fun bind(listener: OnItemClickListener,position: Int) {
+            nameText?.text = FormulaSingleton.formulas[position].name
+            text1?.text = FormulaSingleton.formulas[position].formula
+            text2?.text = FormulaSingleton.formulas[position].params.toString()
+
+            itemView.setOnClickListener {
+                listener.onItemClicked()
+            }
+        }
     }
 
     override fun getItemCount(): Int {
@@ -30,8 +40,10 @@ class MyAdapter : RecyclerView.Adapter<MyAdapter.MyViewHolder>() {
     }
 
     override fun onBindViewHolder(holder: MyViewHolder?, position: Int) {
-        holder?.nameText?.text = FormulaSingleton.formulas[position].name
-        holder?.text1?.text = FormulaSingleton.formulas[position].formula
-        holder?.text2?.text = FormulaSingleton.formulas[position].params.toString()
+        holder?.bind(listener,position)
+    }
+
+    interface OnItemClickListener {
+        fun onItemClicked()
     }
 }

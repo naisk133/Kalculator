@@ -40,34 +40,34 @@ class NextFragment : Fragment() {
         llm.orientation = LinearLayoutManager.VERTICAL
         recycler_view.layoutManager = llm
 
-        recycler_view.adapter = MyAdapter()
+        if (activity is MyAdapter.OnItemClickListener) {
+            recycler_view.adapter = MyAdapter(activity as MyAdapter.OnItemClickListener)
+        }
     }
 
     fun loadDataFromAPI() {
-        val response = APIManager.formulaService.listFormulas()
+        APIManager.formulaService.listFormulas().enqueue(object : Callback<List<Formula>> {
 
-                .enqueue(object : Callback<List<Formula>> {
+            override fun onResponse(call: Call<List<Formula>>?, response: Response<List<Formula>>?) {
 
-                    override fun onResponse(call: Call<List<Formula>>?, response: Response<List<Formula>>?) {
+                if (response != null && response.isSuccessful) {
+                    FormulaSingleton.formulas = response.body()
 
-                        if (response != null && response.isSuccessful) {
-                            FormulaSingleton.formulas = response.body()
+                    recycler_view.adapter.notifyDataSetChanged()
 
-                            recycler_view.adapter.notifyDataSetChanged()
+                    Log.wtf("NextFragment", "Response is Success")
 
-                            Log.wtf("NextFragment", "Response is Success")
+                } else {
+                    Log.wtf("NextFragment", "Response is Fail with ${response?.message()}")
+                }
 
-                        } else {
-                            Log.wtf("NextFragment", "Response is Fail with ${response?.message()}")
-                        }
+            }
 
-                    }
+            override fun onFailure(call: Call<List<Formula>>?, t: Throwable?) {
+                Log.wtf("NextFragment", "No Response")
+            }
 
-                    override fun onFailure(call: Call<List<Formula>>?, t: Throwable?) {
-                        Log.wtf("NextFragment", "No Response")
-                    }
-
-                })
+        })
     }
 
 }

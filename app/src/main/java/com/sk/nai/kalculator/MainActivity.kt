@@ -5,7 +5,7 @@ import android.os.Bundle
 import android.support.v7.widget.RecyclerView
 import android.widget.ListView
 
-class MainActivity : AppCompatActivity(), CalcFragment.OnNextButtonClickListener {
+class MainActivity : AppCompatActivity(), CalcFragment.OnNextButtonClickListener, MyAdapter.OnItemClickListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -25,5 +25,10 @@ class MainActivity : AppCompatActivity(), CalcFragment.OnNextButtonClickListener
         supportFragmentManager.beginTransaction()
                 .replace(R.id.container, nextFragment).addToBackStack(null).commit()
 
+    }
+
+    override fun onItemClicked() {
+        supportFragmentManager.beginTransaction()
+                .replace(R.id.container, DetailFragment()).addToBackStack(null).commit()
     }
 }
